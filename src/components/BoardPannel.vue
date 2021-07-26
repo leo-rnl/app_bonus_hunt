@@ -1,15 +1,20 @@
 <script>
 import CardBoard from './CardBoard.vue'
-import { mapState } from 'vuex'
+import ModalBoard from './ModalBoard.vue'
+import { mapState, mapActions } from 'vuex'
 
 
 export default {
   name: 'boardpannel',
   components: {
     CardBoard,
+    ModalBoard,
   },
   computed: {
-    ...mapState(['boards'])
+    ...mapState(['boards', 'boardModal'])
+  },
+  methods: {
+    ...mapActions(['toggleBoardModal'])
   },
 }
 </script>
@@ -23,7 +28,8 @@ export default {
         :key="item.id"
       />
     </ul>
-    <button>Add board</button>
+    <button @click="toggleBoardModal">Add board</button>
+    <ModalBoard v-show="boardModal"/>
   </aside>
 </template>
 

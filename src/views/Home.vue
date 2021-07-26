@@ -12,6 +12,11 @@ export default {
   name: 'Home',
   components: {
     boardpannel,
+  },
+  methods:{
+    showBoardForm() {
+      return 0;
+    },
   }
 }
 </script>
