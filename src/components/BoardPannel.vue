@@ -13,7 +13,7 @@ export default {
     ...mapState(['boardModal', 'boards'])
   },
   methods: {
-    ...mapActions(['toggleBoardModal', 'fetchBoards', 'selectBoard']),
+    ...mapActions(['toggleBoardModal', 'fetchBoards', 'selectBoard', 'fetchHuntList']),
   },
 
   mounted(){
@@ -30,7 +30,7 @@ export default {
         v-for="item in boards"
         :name="item.name"
         :key="item.id"
-        @click="selectBoard(item.id)"
+        @click="selectBoard(item.id), fetchHuntList(item.id)"
       />
     </ul>
     <button @click="toggleBoardModal">Add board</button>
