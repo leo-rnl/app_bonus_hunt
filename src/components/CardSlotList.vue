@@ -1,10 +1,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
+import CardSlot from '@/components/CardSlot.vue';
 
 export default {
   name: 'cardslotlist',
+  components: {
+    CardSlot
+  },
   computed:{
-    ...mapState(['huntList', 'currentBoard'])
+    ...mapState(['huntList', 'currentBoard', 'slotList'])
   },
   method:{
     ...mapActions(['fetchHuntList'])
@@ -24,6 +28,14 @@ export default {
 <template>
   <div class="huntlist" v-if="currentBoard != null">
     <span>{{ huntList }}</span>
+    <CardSlot
+      v-for="item in huntList"
+      :key="item.id"
+      :id="item.id"
+      :machineId="item.machine_id"
+      :bet="item.bet"
+      :earn="item.earn"
+    />
   </div>
 </template>
 

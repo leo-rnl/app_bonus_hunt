@@ -8,6 +8,8 @@ export default createStore({
     errors: [],
     currentBoard: null,
     huntList: [],
+    slotList: [],
+    machinesList: {},
   },
   mutations: {
     // Change modal boolean for board pannel
@@ -29,9 +31,19 @@ export default createStore({
       state.huntList = data;
     },
 
+    PUSH_MACHINES_LIST(state, data) {
+      state.machinesList = data;
+    },
+
     //Selected board
     SELECT_BOARD(state, id) {
       state.currentBoard = id;
+    },
+
+    ACTUALIZE_SLOT_LIST(state) {
+      state.huntList.forEach((hunt) => {
+        state.slotList.push(hunt.machine_id);
+      });
     },
   },
   actions: {
@@ -59,8 +71,18 @@ export default createStore({
         const response = await axios.get(`/api/boards/${id}`);
         console.log(response.data);
         commit("PUSH_FETCH_HUNTLIST", response.data);
+        commit("ACTUALIZE_SLOT_LIST");
       } catch (e) {
         this.errors.push(e);
+      }
+    },
+
+    async fetchMachinesList({ commit }) {
+      try {
+        const response = await axios.get(`/api/machines`);
+        commit("PUSH_MACHINES_LIST", response.data);
+      } catch (e) {
+        this.state.errors.push(e);
       }
     },
   },

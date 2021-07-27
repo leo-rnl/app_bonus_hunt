@@ -1,9 +1,13 @@
 <script>
-// import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   name: 'cardslot',
   props:{
+    id: {
+      type: Number,
+      default: null,
+    },
     machineId: {
       type: Number,
       default: null,
@@ -15,30 +19,41 @@ export default {
     earn: {
       type: Number,
       default: null,
+    },
+  },
+  data(){
+    return{
+      slotName: null,
     }
   },
-  computed: {
-    multipicatorDisplay(){
-        return (parseInt(this.slotWin) / parseInt(this.slotBet)).toFixed(0)
+  computed:{
+    ...mapState(['slotList', 'machinesList']),
+
+    machineName(){
+      const machine = this.machinesList.find((machine) => machine.id === this.machineId)
+      return machine.name
     }
   },
-  methods:{
-    toggleNameInput(){
-      this.slotNameInput = !this.slotNameInput
-    },
-    toggleBetInput(){
-      this.slotBetInput = !this.slotBetInput
-    },
-    toggleWinInput(){
-      this.slotWinInput = !this.slotWinInput
-    },
-  },
+
 }
 </script>
 
 <template>
   <div class="card-slot">
-    
+    <div class="slot-name"> 
+        <span>{{ machineName }}</span>
+      </div>
+      <div>
+        <span v-if="bet === null">-</span>
+        <span v-else>{{ bet }}</span>
+      </div>
+      <div>
+        <span v-if="earn === null">-</span>
+        <span>{{ earn }}</span>
+      </div>
+      <div>
+        
+      </div>
   </div>
 </template>
 
