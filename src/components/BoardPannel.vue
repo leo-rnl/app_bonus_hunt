@@ -3,7 +3,6 @@ import CardBoard from './CardBoard.vue'
 import ModalBoard from './ModalBoard.vue'
 import { mapState, mapActions } from 'vuex'
 
-
 export default {
   name: 'boardpannel',
   components: {
@@ -11,21 +10,27 @@ export default {
     ModalBoard,
   },
   computed: {
-    ...mapState(['boards', 'boardModal'])
+    ...mapState(['boardModal', 'boards'])
   },
   methods: {
-    ...mapActions(['toggleBoardModal'])
+    ...mapActions(['toggleBoardModal', 'fetchBoards', 'selectBoard']),
   },
+
+  mounted(){
+    this.fetchBoards()
+  }
+
 }
 </script>
 
 <template>
   <aside>
     <ul class="boards-list">
-      <CardBoard 
+      <CardBoard
         v-for="item in boards"
         :name="item.name"
         :key="item.id"
+        @click="selectBoard(item.id)"
       />
     </ul>
     <button @click="toggleBoardModal">Add board</button>
@@ -37,6 +42,8 @@ export default {
 
   aside{
     text-align: left;
+    overflow-y: scroll;
+    overflow-x: hidden;
     .boards-list{
       list-style: none;
       padding: 0;

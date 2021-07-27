@@ -1,22 +1,30 @@
 <template>
   <main>
-    <boardpannel />
+    <BoardPannel 
+    />
+    <BoardShow
+    />
   </main>
 </template>
 
 <script>
 // @ is an alias to /src
-import boardpannel from '@/components/BoardPannel.vue'
+import BoardPannel from '@/components/BoardPannel.vue';
+import BoardShow from '@/components/BoardShow.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Home',
   components: {
-    boardpannel,
+    BoardPannel,
+    BoardShow,
   },
-  methods:{
-    showBoardForm() {
-      return 0;
-    },
+    methods: {
+    ...mapActions(['fetchBoards']),
+  },
+
+  Created(){
+    this.fetchBoards()
   }
 }
 </script>
@@ -26,9 +34,11 @@ export default {
   main{
     width: 100%;
     padding: 2em;
-
+    max-height: 600px;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
     aside{
-      max-width: 20%;
+
     }
   }
 
