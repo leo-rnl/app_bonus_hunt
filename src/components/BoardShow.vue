@@ -1,11 +1,13 @@
 <script>
 import CardSlotList from '@/components/CardSlotList.vue'
 import { mapState, mapActions } from 'vuex';
+import ManualCardSlot from './ManualCardSlot.vue';
 
 export default {
   name: "boardshow",
   components: {
     CardSlotList,
+    ManualCardSlot,
   },
   computed: {
     ...mapState(['currentBoard', 'huntList']),
@@ -33,8 +35,8 @@ export default {
       </div>
     </div>
     <span v-if="currentBoard === null">Select board</span>
-    <span v-else>currentBoard = {{ currentBoard }}</span>
     <CardSlotList />
+    <ManualCardSlot />
   </section>
 </template>
 

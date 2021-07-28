@@ -27,7 +27,7 @@ export default {
     }
   },
   computed:{
-    ...mapState(['slotList', 'machinesList']),
+    ...mapState(['slotList', 'machinesList', 'currentBoard']),
 
     machineName(){
       const machine = this.machinesList.find((machine) => machine.id === this.machineId)
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <template>
-  <div class="card-slot">
+  <div class="card-slot" v-if="currentBoard != null">
     <div class="slot-name"> 
         <span>{{ machineName }}</span>
       </div>
@@ -52,7 +52,7 @@ export default {
         <span>{{ earn }}</span>
       </div>
       <div>
-        
+        <span>-</span>
       </div>
   </div>
 </template>

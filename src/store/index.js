@@ -9,7 +9,8 @@ export default createStore({
     currentBoard: null,
     huntList: [],
     slotList: [],
-    machinesList: {},
+    machinesList: [],
+    machineSelectList: [],
   },
   mutations: {
     // Change modal boolean for board pannel
@@ -35,15 +36,25 @@ export default createStore({
       state.machinesList = data;
     },
 
-    //Selected board
-    SELECT_BOARD(state, id) {
-      state.currentBoard = id;
-    },
-
     ACTUALIZE_SLOT_LIST(state) {
       state.huntList.forEach((hunt) => {
         state.slotList.push(hunt.machine_id);
       });
+    },
+
+    ACTUALIZE_MACHINES_SELECT_LIST(state) {
+      console.log("actualize select list ...");
+      state.machinesList.forEach((machine) => {
+        state.machineSelectList.push({
+          value: machine.id,
+          label: machine.name,
+        });
+      });
+    },
+
+    //Selected board
+    SELECT_BOARD(state, id) {
+      state.currentBoard = id;
     },
   },
   actions: {
@@ -69,7 +80,6 @@ export default createStore({
     async fetchHuntList({ commit }, id) {
       try {
         const response = await axios.get(`/api/boards/${id}`);
-        console.log(response.data);
         commit("PUSH_FETCH_HUNTLIST", response.data);
         commit("ACTUALIZE_SLOT_LIST");
       } catch (e) {
@@ -77,10 +87,20 @@ export default createStore({
       }
     },
 
+    async updateHuntList(currentBoard, huntList) {
+      try {
+        await axios.post(`/api/huntlists/${currentBoard}`, huntList);
+      } catch (e) {
+        this.errors.push(e);
+      }
+    },
+
+    // Fetch all machines
     async fetchMachinesList({ commit }) {
       try {
         const response = await axios.get(`/api/machines`);
         commit("PUSH_MACHINES_LIST", response.data);
+        commit("ACTUALIZE_MACHINES_SELECT_LIST");
       } catch (e) {
         this.state.errors.push(e);
       }
