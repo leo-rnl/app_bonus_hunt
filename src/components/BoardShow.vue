@@ -1,20 +1,28 @@
 <script>
 import CardSlotList from '@/components/CardSlotList.vue'
 import { mapState, mapActions } from 'vuex';
-import ManualCardSlot from './ManualCardSlot.vue';
+// import ManualCardSlot from './ManualCardSlot.vue';
 
 export default {
   name: "boardshow",
   components: {
     CardSlotList,
-    ManualCardSlot,
+    // ManualCardSlot,
   },
   computed: {
     ...mapState(['currentBoard', 'huntList']),
   },
   methods:{
-    ...mapActions(['selectBoard'])
+    ...mapActions(['selectBoard', 'newSlotHuntList', 'fetchHuntList']),
+
+    insertNewSlot(){
+      this.newSlotHuntList()
+      setInterval(() => {
+        this.fetchHuntList(this.currentBoard);
+      }, 50);
+    }
   },
+
 }
 </script>
 
@@ -34,9 +42,16 @@ export default {
         <span>Multiplicateur</span>
       </div>
     </div>
-    <span v-if="currentBoard === null">Select board</span>
-    <CardSlotList />
-    <ManualCardSlot />
+    
+    
+    <div v-if="currentBoard != null">
+      <CardSlotList />
+      <!-- <ManualCardSlot /> -->
+      <button @click="insertNewSlot">+</button>
+    </div>
+    <div v-else>
+        <span>Select board</span>
+    </div>
   </section>
 </template>
 

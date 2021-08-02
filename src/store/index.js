@@ -38,7 +38,7 @@ export default createStore({
 
     ACTUALIZE_SLOT_LIST(state) {
       state.huntList.forEach((hunt) => {
-        state.slotList.push(hunt.machine_id);
+        state.slotList.push(hunt.slot_id);
       });
     },
 
@@ -46,7 +46,7 @@ export default createStore({
       console.log("actualize select list ...");
       state.machinesList.forEach((machine) => {
         state.machineSelectList.push({
-          value: machine.id,
+          value: machine._id,
           label: machine.name,
         });
       });
@@ -77,9 +77,10 @@ export default createStore({
       commit("SELECT_BOARD", id);
     },
 
+    // Fetch Huntlist with Board id in params
     async fetchHuntList({ commit }, id) {
       try {
-        const response = await axios.get(`/api/boards/${id}`);
+        const response = await axios.get(`/api/huntlist/${id}`);
         commit("PUSH_FETCH_HUNTLIST", response.data);
         commit("ACTUALIZE_SLOT_LIST");
       } catch (e) {
@@ -87,9 +88,15 @@ export default createStore({
       }
     },
 
-    async updateHuntList(currentBoard, huntList) {
+    // Push to the API the new slot just created
+    async newSlotHuntList(context) {
       try {
-        await axios.post(`/api/huntlists/${currentBoard}`, huntList);
+        await axios.post(`/api/huntlist`, {
+          board_id: context.state.currentBoard,
+          slot_id: null,
+          bet: null,
+          earn: null,
+        });
       } catch (e) {
         this.errors.push(e);
       }
@@ -98,7 +105,7 @@ export default createStore({
     // Fetch all machines
     async fetchMachinesList({ commit }) {
       try {
-        const response = await axios.get(`/api/machines`);
+        const response = await axios.get(`/api/slots`);
         commit("PUSH_MACHINES_LIST", response.data);
         commit("ACTUALIZE_MACHINES_SELECT_LIST");
       } catch (e) {

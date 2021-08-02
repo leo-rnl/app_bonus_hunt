@@ -16,6 +16,7 @@ export default {
       slotBet: '',
       slotEarn: '',
       postBody:{
+        blank: true,
         board_id: null,
         machine_id: null,
         bet: null,
@@ -47,18 +48,11 @@ export default {
     },
     toggleEarnInput(){
       this.slotEarnInput = !this.slotEarnInput
-    },
-
-    addToHuntList() {
-      this.postBody.board_id = this.currentBoard
-      console.log(this.postBody)
-      this.huntList.push(this.postBody)
-      console.log(this.huntList)
-      console.log("updated")
     }
   },
   created(){
     console.log("manual card slot mounted")
+
   }
 }
 </script>
@@ -95,9 +89,6 @@ export default {
       <div>
         <span v-if="postBody.bet != null && postBody.earn != null">x{{multipicatorDisplay}}</span>
         <span v-else>-</span>
-      </div>
-      <div>
-        <button @click="this.addToHuntList">Update huntlist</button>
       </div>
   </div>
 </template>

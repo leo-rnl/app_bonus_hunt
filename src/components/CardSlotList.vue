@@ -27,12 +27,11 @@ export default {
 
 <template>
   <div class="huntlist" v-if="currentBoard != null">
-    <span>{{ huntList }}</span>
     <CardSlot
       v-for="item in huntList"
-      :key="item.id"
-      :id="item.id"
-      :machineId="item.machine_id"
+      :key="item._id"
+      :id="item._id"
+      :machineId="item.slot_id"
       :bet="item.bet"
       :earn="item.earn"
     />
@@ -40,5 +39,10 @@ export default {
 </template>
 
 <style lang="scss">
+
+  .drop-data{
+    font-size: 0.6em;
+    color: lightseagreen;
+  }
 
 </style>

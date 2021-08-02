@@ -29,8 +29,8 @@ export default {
       <CardBoard
         v-for="item in boards"
         :name="item.name"
-        :key="item.id"
-        @click="selectBoard(item.id), fetchHuntList(item.id)"
+        :key="item._id"
+        @click="selectBoard(item._id), fetchHuntList(item._id)"
       />
     </ul>
     <button @click="toggleBoardModal">Add board</button>
