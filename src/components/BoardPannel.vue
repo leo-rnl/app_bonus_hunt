@@ -1,29 +1,40 @@
 <script>
 import CardBoard from './CardBoard.vue'
-import { mapState } from 'vuex'
-
+import ModalBoard from './ModalBoard.vue'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'boardpannel',
   components: {
     CardBoard,
+    ModalBoard,
   },
   computed: {
-    ...mapState(['boards'])
+    ...mapState(['boardModal', 'boards'])
   },
+  methods: {
+    ...mapActions(['toggleBoardModal', 'fetchBoards', 'selectBoard', 'fetchHuntList']),
+  },
+
+  mounted(){
+    this.fetchBoards()
+  }
+
 }
 </script>
 
 <template>
   <aside>
     <ul class="boards-list">
-      <CardBoard 
+      <CardBoard
         v-for="item in boards"
         :name="item.name"
-        :key="item.id"
+        :key="item._id"
+        @click="selectBoard(item._id), fetchHuntList(item._id)"
       />
     </ul>
-    <button>Add board</button>
+    <button @click="toggleBoardModal">Add board</button>
+    <ModalBoard v-show="boardModal"/>
   </aside>
 </template>
 
@@ -31,6 +42,8 @@ export default {
 
   aside{
     text-align: left;
+    overflow-y: scroll;
+    overflow-x: hidden;
     .boards-list{
       list-style: none;
       padding: 0;

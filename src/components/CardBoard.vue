@@ -1,4 +1,6 @@
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'cardboard',
   props: {
@@ -6,6 +8,9 @@ export default {
       type: String,
       required: true,
     },
+  },
+  computed:{
+    ...mapState(['boards'])
   }
 }
 </script>
@@ -22,14 +27,13 @@ export default {
 <style lang="scss">
 
   .card-board{
-    width: 100%;
     padding: 1em;
     border: 1px solid lightgray;
     cursor: pointer;
     margin-bottom: 1em;
 
     h2{
-      font-size: 1.2em;
+      font-size: 1em;
     }
   }
 
