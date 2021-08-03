@@ -61,6 +61,10 @@ export default createStore({
     SELECT_BOARD(state, id) {
       state.currentBoard = id;
     },
+
+    RESET_BOARD(state) {
+      state.currentBoard = null;
+    },
   },
   actions: {
     // toggle v-show modal board
@@ -80,6 +84,10 @@ export default createStore({
 
     selectBoard({ commit }, id) {
       commit("SELECT_BOARD", id);
+    },
+
+    resetBoard({ commit }) {
+      commit("RESET_BOARD");
     },
 
     // Fetch Huntlist with Board id in params
@@ -119,5 +127,6 @@ export default createStore({
       }
     },
   },
+
   modules: {},
 });

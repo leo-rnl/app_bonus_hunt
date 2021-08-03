@@ -28,7 +28,10 @@ export default {
     <ul class="boards-list">
       <CardBoard
         v-for="item in boards"
+        :id="item._id"
         :name="item.name"
+        :devise="item.devise"
+        :createdAt="item.createdAt"
         :key="item._id"
         @click="selectBoard(item._id), fetchHuntList(item._id)"
       />

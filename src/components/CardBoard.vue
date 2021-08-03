@@ -1,16 +1,47 @@
 <script>
-import { mapState } from 'vuex';
-
+import axios from 'axios';
+import { mapActions, mapState } from 'vuex';
 export default {
   name: 'cardboard',
   props: {
+    id:{
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
     },
+    devise: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: String,
+      required: true,
+    }
   },
   computed:{
-    ...mapState(['boards'])
+    ...mapState(['boards', 'currentBoard']),
+
+    dateBoard(){
+      return this.createdAt.slice(0, 10);
+    }
+  },
+  methods:{
+    ...mapActions(['fetchBoards', 'resetBoard']),
+    
+    async deleteBoard() {
+      try {
+        await axios.delete(`/api/boards/${this.id}`);
+      } catch (e) {
+        this.state.errors.push(e);
+      }
+      if(this.currentBoard === this.id){
+        this.resetBoard();
+      }
+      this.fetchBoards();
+    },
   }
 }
 </script>
@@ -20,6 +51,8 @@ export default {
 
       <li class="card-board">
         <h2>{{ name }}</h2>
+        <span>{{ dateBoard }}</span>
+        <button @click="deleteBoard()">X</button>
       </li>
 
 </template>
