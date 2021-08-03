@@ -110,7 +110,7 @@ export default {
     sendName(){
       setTimeout(() => {
         this.updateHuntlistDatabase('slot')
-      }, 500);
+      }, 250);
     }
   },
   beforeMount(){
