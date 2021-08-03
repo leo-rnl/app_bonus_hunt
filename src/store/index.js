@@ -9,6 +9,7 @@ export default createStore({
     currentBoard: null,
     huntList: [],
     slotList: [],
+    // All slots of DB
     machinesList: [],
     machineSelectList: [],
   },
@@ -37,6 +38,7 @@ export default createStore({
     },
 
     ACTUALIZE_SLOT_LIST(state) {
+      state.slotList = [];
       state.huntList.forEach((hunt) => {
         state.slotList.push(hunt.slot_id);
       });
@@ -44,11 +46,14 @@ export default createStore({
 
     ACTUALIZE_MACHINES_SELECT_LIST(state) {
       console.log("actualize select list ...");
+      state.machineSelectList = [];
       state.machinesList.forEach((machine) => {
-        state.machineSelectList.push({
-          value: machine._id,
-          label: machine.name,
-        });
+        if (!state.slotList.includes(machine._id)) {
+          state.machineSelectList.push({
+            value: machine._id,
+            label: machine.name,
+          });
+        }
       });
     },
 
@@ -83,6 +88,7 @@ export default createStore({
         const response = await axios.get(`/api/huntlist/${id}`);
         commit("PUSH_FETCH_HUNTLIST", response.data);
         commit("ACTUALIZE_SLOT_LIST");
+        commit("ACTUALIZE_MACHINES_SELECT_LIST");
       } catch (e) {
         this.errors.push(e);
       }

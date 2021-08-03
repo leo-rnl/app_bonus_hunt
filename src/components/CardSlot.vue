@@ -126,13 +126,13 @@ export default {
 <template>
   <div class="card-slot" v-if="currentBoard != null">
     <div class="slot-name">
-        <span v-if="slotNameInput === false" @click="toggleNameInput">{{ this.updateBody.slot_id === null ? 'Cliquez pour modifier' : machineName }}</span>
+        <span v-if="slotNameInput === false" @click="toggleNameInput(), this.updateBody.slot_id = null, sendName(), fetchHuntList(this.currentBoard)">{{ this.updateBody.slot_id === null ? 'Cliquez pour modifier' : machineName }}</span>
         <Multiselect v-else
           v-model="this.updateBody.slot_id"
           :options="machineSelectList"
           :searchable="true"
           class="custom-select"
-          @change="toggleNameInput(), sendName()"
+          @change="toggleNameInput(), sendName(), fetchHuntList(this.currentBoard)"
         />
       </div>
       <div>

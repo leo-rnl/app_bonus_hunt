@@ -17,7 +17,7 @@ export default {
 
     insertNewSlot(){
       this.newSlotHuntList()
-      setInterval(() => {
+      setTimeout(() => {
         this.fetchHuntList(this.currentBoard);
       }, 50);
     }
