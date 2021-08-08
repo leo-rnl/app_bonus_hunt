@@ -64,9 +64,16 @@ export default {
     border: 1px solid lightgray;
     cursor: pointer;
     margin-bottom: 1em;
+    position: relative;
 
     h2{
       font-size: 1em;
+    }
+
+    button{
+      position: absolute;
+      top: 1em;
+      right: 1em;
     }
   }
 
